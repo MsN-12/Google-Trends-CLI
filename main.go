@@ -2,6 +2,7 @@ package Google_Trends_CLI
 
 import (
 	"encoding/xml"
+	"fmt"
 )
 
 type RSS struct {
@@ -28,6 +29,19 @@ func main() {
 	data := readGoogleTrends()
 	err := xml.Unmarshal(data, &r)
 	if err != nil {
-		println(err)
+		fmt.Println(err)
+	}
+	fmt.Println("\n Bellow are all the google trends for today !")
+	fmt.Println("----------------------------------------------")
+
+	for i := range r.Channel.ItemList {
+		rank := i + 1
+		fmt.Println("[+]", rank)
+		fmt.Println("Searching Term:", r.Channel.ItemList[i].Title)
+		fmt.Println("Link of trend: ", r.Channel.ItemList[i].Link)
+		fmt.Println("Headline: ", r.Channel.ItemList[i].NewsItems[0].HeadLine)
+		fmt.Println("Link to article: ", r.Channel.ItemList[i].NewsItems[0].HeadLineLink)
+		fmt.Println("----------------------------------------------")
+
 	}
 }
